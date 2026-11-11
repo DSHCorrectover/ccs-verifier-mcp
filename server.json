@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.DSHCorrectover/ccs-verifier-mcp",
+  "title": "CCS Verifier MCP",
+  "description": "Free, unlimited CCS receipt verification via Ed25519 signatures. CC0-1.0 licensed.",
+  "repository": {
+    "url": "https://github.com/DSHCorrectover/ccs-verifier-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "ccs-verifier-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

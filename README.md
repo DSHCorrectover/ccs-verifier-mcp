@@ -34,7 +34,7 @@ This server works with any MCP-compatible client:
   "mcpServers": {
     "ccs-verifier": {
       "command": "npx",
-      "args": ["-y", "@correctover/ccs-verifier-mcp"]
+      "args": ["-y", "ccs-verifier-mcp"]
     }
   }
 }
@@ -183,7 +183,7 @@ The verifier is CC0-1.0 (public domain). You can self-host it:
 
 ```bash
 # Clone
-git clone https://github.com/Correctover/ccs-verifier-mcp.git
+git clone https://github.com/DSHCorrectover/ccs-verifier-mcp.git
 cd ccs-verifier-mcp
 
 # Install
@@ -222,7 +222,7 @@ npm run build
 from langchain.tools import MCPTool
 
 ccs_verifier = MCPTool.from_server(
-    server_url="npx://@correctover/ccs-verifier-mcp",
+    server_url="npx://ccs-verifier-mcp",
     tool_name="verify_receipt"
 )
 
@@ -237,7 +237,7 @@ from llama_index.tools.mcp import MCPTool
 
 ccs_verifier = MCPTool(
     command="npx",
-    args=["-y", "@correctover/ccs-verifier-mcp"],
+    args=["-y", "ccs-verifier-mcp"],
     tool_name="verify_receipt"
 )
 ```
@@ -250,7 +250,7 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
 const transport = new StdioClientTransport({
   command: 'npx',
-  args: ['-y', '@correctover/ccs-verifier-mcp']
+  args: ['-y', 'ccs-verifier-mcp']
 });
 
 const client = new Client({ name: 'my-app', version: '1.0.0' });
@@ -285,10 +285,10 @@ You can copy, modify, distribute and perform the work, even for commercial purpo
 ## Links
 
 - **CCS Standard**: [draft-correctover-ccs-11](https://datatracker.ietf.org/doc/draft-correctover-ccs/)
-- **GitHub**: https://github.com/Correctover/ccs-verifier-mcp
-- **npm**: https://www.npmjs.com/package/@correctover/ccs-verifier-mcp
+- **GitHub**: https://github.com/DSHCorrectover/ccs-verifier-mcp
+- **npm**: https://www.npmjs.com/package/ccs-verifier-mcp
 - **MCP Protocol**: https://modelcontextprotocol.io
-- **Issues**: https://github.com/Correctover/ccs-verifier-mcp/issues
+- **Issues**: https://github.com/DSHCorrectover/ccs-verifier-mcp/issues
 
 ---
 

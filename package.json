@@ -1,5 +1,5 @@
 {
-  "name": "@correctover/ccs-verifier-mcp",
+  "name": "ccs-verifier-mcp",
   "version": "1.0.0",
   "description": "MCP Server for CCS Receipt Verification - Free, unlimited, open verification for the CCS standard",
   "main": "src/server.js",

@@ -1,0 +1,129 @@
+{
+  "version": "1.0.0",
+  "specVersion": "draft-correctover-ccs-11",
+  "description": "CCS Verifier Interoperability Test Vectors",
+  "generated": "2026-11-11T09:08:22.204Z",
+  "purpose": "Standard test vectors for verifying CCS implementation compatibility across different verifier implementations (VibeMirror, AutoGen, etc.)",
+  "vectors": [
+    {
+      "id": "vector-001-valid-standard",
+      "description": "Valid CCS receipt - standard case with 3 commitments",
+      "expected": {
+        "valid": true,
+        "confidence": 1
+      },
+      "receipt": {
+        "receipt_id": "31077bef-5012-4429-94b9-b045d8ead7a9",
+        "evaluation_id": "interop-eval-001",
+        "timestamp": 1794388102126,
+        "model_id": "gpt-4-turbo-2026-01",
+        "prompt_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "response_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "commitments": [
+          "commitment:latency:p95<200ms",
+          "commitment:accuracy:0.95",
+          "commitment:safety:pass"
+        ],
+        "signature": "18c5eb25f18ab5837ad5e2fec686bba9aac98683c6ca098fbd63da9db0a17c19883bbd09c95169c315b3822af10c2e1d899b54fb4cf1bd4911b445ab4d2fec0a",
+        "public_key": "34324eff7777f55d530940ebd1fb6cb2c6882945ef319a3f4939b4257b14ed56"
+      }
+    },
+    {
+      "id": "vector-002-valid-different-key",
+      "description": "Valid CCS receipt - different signing key, different model",
+      "expected": {
+        "valid": true,
+        "confidence": 1
+      },
+      "receipt": {
+        "receipt_id": "682b2c8f-b185-43da-956c-00c599d62a72",
+        "evaluation_id": "interop-eval-002",
+        "timestamp": 1794388102137,
+        "model_id": "claude-3-opus-2026-01",
+        "prompt_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "response_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "commitments": [
+          "commitment:toxicity:0.00",
+          "commitment:helpfulness:0.98"
+        ],
+        "signature": "2c42488d1035a8a09c8053711e950fb3877973487cadd3d9d84f2f40ae40362c1dade589f00f3231001f567b608bf1082819f1dd5a17d5ada88d9b09fa754708",
+        "public_key": "c7486e58c7c073596e058a12be264b9895bf7e67d9ae94c8b008b069ffcf800e"
+      }
+    },
+    {
+      "id": "vector-003-valid-minimal",
+      "description": "Valid CCS receipt - minimal single commitment",
+      "expected": {
+        "valid": true,
+        "confidence": 1
+      },
+      "receipt": {
+        "receipt_id": "92967149-4b14-4957-a3d3-ef43d8dee4e0",
+        "evaluation_id": "interop-eval-003",
+        "timestamp": 1794388102147,
+        "model_id": "llama-3-70b",
+        "prompt_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+        "response_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+        "commitments": [
+          "single-commitment"
+        ],
+        "signature": "b77be8f9d9a84e39e0b4cbd4d14cefae0e1c8f67c932f5ea68a2721d8834fcbd262374e0f02b8809d2f0ddbcb82efea0039f444a83003bccded7512a2593df0c",
+        "public_key": "e75360e56fe7ef4f83c3006898cbeb6a1c8d1b5761780da973af1bede35019c4"
+      }
+    },
+    {
+      "id": "vector-004-tampered-signature",
+      "description": "Invalid - signature has been tampered with (last 4 hex chars changed)",
+      "expected": {
+        "valid": false,
+        "confidence": 0,
+        "error": "Invalid signature"
+      },
+      "receipt": {
+        "receipt_id": "31077bef-5012-4429-94b9-b045d8ead7a9",
+        "evaluation_id": "interop-eval-001",
+        "timestamp": 1794388102126,
+        "model_id": "gpt-4-turbo-2026-01",
+        "prompt_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "response_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "commitments": [
+          "commitment:latency:p95<200ms",
+          "commitment:accuracy:0.95",
+          "commitment:safety:pass"
+        ],
+        "signature": "18c5eb25f18ab5837ad5e2fec686bba9aac98683c6ca098fbd63da9db0a17c19883bbd09c95169c315b3822af10c2e1d899b54fb4cf1bd4911b445ab4d2fffff",
+        "public_key": "34324eff7777f55d530940ebd1fb6cb2c6882945ef319a3f4939b4257b14ed56"
+      }
+    },
+    {
+      "id": "vector-005-missing-fields",
+      "description": "Invalid - missing required fields (evaluation_id, model_id, hashes, etc.)",
+      "expected": {
+        "valid": false,
+        "confidence": 0,
+        "error": "Invalid receipt structure"
+      },
+      "receipt": {
+        "receipt_id": "missing-fields-test",
+        "timestamp": 1794388102204
+      }
+    }
+  ],
+  "testInstructions": {
+    "description": "How to use these test vectors for interoperability testing",
+    "steps": [
+      "Load each vector from the 'vectors' array",
+      "Pass the 'receipt' object to your CCS verifier implementation",
+      "Compare result.valid against expected.valid",
+      "Compare result.confidence against expected.confidence",
+      "For invalid vectors, verify appropriate error is returned"
+    ],
+    "compatibilityNotes": [
+      "All timestamps are in milliseconds since Unix epoch",
+      "All hashes use SHA-256 with 'sha256:' prefix",
+      "Signatures and public keys are hex-encoded Ed25519 values (64 bytes each)",
+      "Canonical JSON must sort keys alphabetically and exclude 'signature' field",
+      "Ed25519 verification uses tweetnacl or equivalent library"
+    ]
+  }
+}

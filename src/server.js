@@ -26,18 +26,53 @@ import {
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 import { CCSVerifier } from './verifier.js';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const STATS_FILE = join(__dirname, '..', 'data', 'usage-stats.json');
 
 // Initialize verifier
 const verifier = new CCSVerifier();
 
-// Usage tracking (in-memory, for demonstration)
-const usageStats = {
+// Usage tracking with persistence
+let usageStats = {
   totalVerifications: 0,
   successfulVerifications: 0,
   failedVerifications: 0,
   startTime: Date.now(),
   verificationsByHour: {}
 };
+
+// Load persisted stats
+function loadStats() {
+  try {
+    if (existsSync(STATS_FILE)) {
+      const saved = JSON.parse(readFileSync(STATS_FILE, 'utf-8'));
+      usageStats = { ...usageStats, ...saved };
+      usageStats.startTime = Date.now();
+    }
+  } catch (e) {
+    console.error('Failed to load stats:', e.message);
+  }
+}
+
+// Save stats to disk
+function saveStats() {
+  try {
+    const dir = dirname(STATS_FILE);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+    writeFileSync(STATS_FILE, JSON.stringify(usageStats, null, 2));
+  } catch (e) {
+    console.error('Failed to save stats:', e.message);
+  }
+}
+
+// Load stats on startup
+loadStats();
 
 function trackUsage(result) {
   usageStats.totalVerifications++;
@@ -49,6 +84,9 @@ function trackUsage(result) {
   
   const hour = new Date().toISOString().substring(0, 13);
   usageStats.verificationsByHour[hour] = (usageStats.verificationsByHour[hour] || 0) + 1;
+  
+  // Persist after each verification
+  saveStats();
 }
 
 // Create MCP server

@@ -1,6 +1,6 @@
 {
   "name": "ccs-verifier-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP Server for CCS Receipt Verification - Free, unlimited, open verification for the CCS standard",
   "main": "src/server.js",
   "type": "module",
@@ -27,6 +27,6 @@
   "mcp": {
     "name": "ccs-verifier",
     "description": "Verify CCS receipts with Ed25519 signatures",
-    "version": "1.0.0"
+    "version": "1.0.1"
   }
 }

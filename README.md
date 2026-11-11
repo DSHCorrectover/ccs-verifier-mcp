@@ -4,7 +4,7 @@
 
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0--1.0-blue.svg)](LICENSE)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io)
-[![npm version](https://badge.fury.io/js/@correctover%2Fccs-verifier-mcp.svg)](https://badge.fury.io/js/@correctover%2Fccs-verifier-mcp)
+[![npm version](https://badge.fury.io/js/ccs-verifier-mcp.svg)](https://badge.fury.io/js/ccs-verifier-mcp)
 
 ## What is this?
 

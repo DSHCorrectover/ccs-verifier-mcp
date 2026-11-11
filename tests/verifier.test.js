@@ -172,3 +172,20 @@ test('CCSVerifier - receipt with custom data', () => {
   const result = verifier.verify(receipt);
   assert.strictEqual(result.valid, true, 'custom receipts should be valid');
 });
+
+// --- 小阶(8-torsion)公钥必须拒绝（零密钥伪造类，2026-11-11 实测） ---
+import { isSmallOrderKey } from '../src/small-order-gate.js';
+const TORSION = [
+  '0100000000000000000000000000000000000000000000000000000000000000',
+  'ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f',
+  '26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc85',
+  '26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc05',
+  'c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa',
+  'c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a',
+  '0000000000000000000000000000000000000000000000000000000000000080',
+  '0000000000000000000000000000000000000000000000000000000000000000',
+];
+test('small-order issuer keys rejected before signature math (all 8 torsion encodings)', () => {
+  for (const hex of TORSION) assert.equal(isSmallOrderKey(hex), true);
+  assert.equal(isSmallOrderKey('d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a'), false);
+});

@@ -10,6 +10,7 @@
  */
 
 import nacl from 'tweetnacl';
+import { isSmallOrderKey } from './small-order-gate.js';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
@@ -180,6 +181,14 @@ export class CCSVerifier {
       const publicKeyBytes = this.hexToBytes(receipt.public_key);
       const messageBytes = new TextEncoder().encode(message);
 
+      // Fail-closed gate: reject small-order (8-torsion) public keys BEFORE
+      // any signature math. This class accepts zero-scalar forgeries on
+      // several mainstream libraries (tweetnacl included) — measured
+      // 2026-11-11, see docs/FINDING-small-order.md.
+      if (isSmallOrderKey(receipt.public_key)) {
+        console.error('Small-order public key rejected (zero-scalar forgery class)');
+        return false;
+      }
       // Verify using tweetnacl
       return nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes);
     } catch (error) {
